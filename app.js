@@ -14,21 +14,28 @@ app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
 
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("familiesdb");
+        dbo.collection("families").findOne({}, function(err, result) {
+            if (err) throw err;
             res.setHeader('Access-Control-Allow-Origin', '*');
             res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
             res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers,X-Access-Token,XKey,Authorization');    
             res.send(result);
+          });
+        });
 });
 app.post('/uirequest', (req, res) => {
 console.log(req.body);
-   
+            
+            
 
             res.setHeader('Access-Control-Allow-Origin', '*');
             res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
              res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers,X-Access-Token,XKey,Authorization');    
           
     res.send('request sent');
-         
         
 
 });
